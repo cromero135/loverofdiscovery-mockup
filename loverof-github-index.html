@@ -1,0 +1,571 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>LOVEROF — Mockup</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+<style>
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --white: #ffffff;
+    --off-white: #f7f5f2;
+    --black: #0a0a0a;
+    --mid: #6b6b6b;
+    --light: #d4d0cb;
+    --blue-wash: #c8d9e6;
+    --serif: 'Cormorant Garamond', Georgia, serif;
+    --sans: 'Montserrat', sans-serif;
+  }
+
+  body { font-family: var(--sans); background: var(--white); color: var(--black); overflow-x: hidden; }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed; top: 0; left: 0; width: 100%; z-index: 100;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 22px 48px;
+    mix-blend-mode: normal;
+  }
+  nav.light { color: var(--white); }
+  nav.dark  { color: var(--black); border-bottom: 1px solid #e8e5e0; background: var(--white); }
+
+  .nav-links { display: flex; gap: 36px; }
+  .nav-links a {
+    font-family: var(--sans); font-size: 10px; font-weight: 500;
+    letter-spacing: 0.18em; text-transform: uppercase;
+    text-decoration: none; cursor: pointer;
+    transition: opacity .2s;
+  }
+  .nav-links a:hover { opacity: .5; }
+  nav.light .nav-links a { color: var(--white); }
+  nav.dark  .nav-links a { color: var(--black); }
+
+  .nav-logo {
+    font-family: var(--serif); font-size: 22px; font-weight: 300;
+    letter-spacing: 0.04em; cursor: pointer; user-select: none;
+    position: absolute; left: 50%; transform: translateX(-50%);
+  }
+  nav.light .nav-logo { color: var(--white); }
+  nav.dark  .nav-logo { color: var(--black); }
+
+  .nav-cart {
+    font-family: var(--sans); font-size: 10px; font-weight: 500;
+    letter-spacing: 0.18em; text-transform: uppercase; cursor: pointer;
+  }
+  nav.light .nav-cart { color: var(--white); }
+  nav.dark  .nav-cart { color: var(--black); }
+
+  /* ── PAGE SYSTEM ── */
+  .page { display: none; min-height: 100vh; }
+  .page.active { display: block; }
+
+  /* ══════════════════════════════
+     HOME
+  ══════════════════════════════ */
+  #home {
+    background: var(--blue-wash);
+    min-height: 100vh;
+    position: relative;
+    overflow: hidden;
+    display: flex; align-items: center; justify-content: center;
+  }
+
+  .home-bg {
+    position: absolute; inset: 0;
+    background: radial-gradient(ellipse at 60% 40%, #dce9f2 0%, #b8cfe0 40%, #9abdd4 100%);
+  }
+
+  /* Watercolor noise texture overlay */
+  .home-bg::after {
+    content: '';
+    position: absolute; inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='512' height='512' filter='url(%23n)' opacity='0.08'/%3E%3C/svg%3E");
+    opacity: .35; mix-blend-mode: multiply; pointer-events: none;
+  }
+
+  /* Animated figure */
+  .figure-wrap {
+    position: absolute;
+    right: 12%; bottom: 0;
+    width: 340px; height: 520px;
+    animation: float 6s ease-in-out infinite;
+  }
+  @keyframes float {
+    0%,100% { transform: translateY(0px) rotate(-1deg); }
+    50%      { transform: translateY(-18px) rotate(1deg); }
+  }
+
+  .figure-svg { width: 100%; height: 100%; }
+
+  /* Home nav overlay */
+  .home-nav-left {
+    position: absolute; left: 60px; top: 50%; transform: translateY(-50%);
+    display: flex; flex-direction: column; gap: 28px; z-index: 10;
+  }
+  .home-nav-left a {
+    font-family: var(--serif); font-style: italic; font-size: 22px;
+    font-weight: 300; color: rgba(255,255,255,0.85); text-decoration: none;
+    cursor: pointer; transition: color .2s;
+    letter-spacing: 0.02em;
+  }
+  .home-nav-left a:hover { color: #fff; }
+
+  .home-wordmark {
+    position: absolute; bottom: 40px; left: 50%; transform: translateX(-50%);
+    font-family: var(--serif); font-size: 11px; font-weight: 400;
+    letter-spacing: 0.28em; text-transform: uppercase;
+    color: rgba(255,255,255,0.6);
+  }
+
+  /* ══════════════════════════════
+     SHOP
+  ══════════════════════════════ */
+  #shop { padding-top: 90px; }
+
+  .shop-header {
+    text-align: center; padding: 40px 0 32px;
+    border-bottom: 1px solid #e8e5e0;
+    margin-bottom: 0;
+  }
+  .shop-header h1 {
+    font-family: var(--serif); font-weight: 300; font-size: 13px;
+    letter-spacing: 0.3em; text-transform: uppercase; color: var(--mid);
+  }
+
+  .product-grid {
+    display: grid; grid-template-columns: repeat(3, 1fr);
+    gap: 0;
+    max-width: 1200px; margin: 0 auto;
+    padding: 48px 40px 80px;
+    gap: 48px 32px;
+  }
+
+  .product-card { cursor: pointer; }
+  .product-card:hover .card-img-wrap img { transform: scale(1.03); }
+
+  .card-img-wrap {
+    background: var(--off-white);
+    aspect-ratio: 3/4;
+    overflow: hidden; margin-bottom: 18px;
+    display: flex; align-items: center; justify-content: center;
+    position: relative;
+  }
+  .card-img-wrap img {
+    width: 75%; height: 75%; object-fit: contain;
+    transition: transform .5s ease;
+  }
+  .img-placeholder {
+    width: 100%; height: 100%;
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center; gap: 10px;
+  }
+  .img-placeholder .ph-icon {
+    width: 48px; height: 48px; border-radius: 50%;
+    border: 1.5px solid var(--light);
+    display: flex; align-items: center; justify-content: center;
+    color: var(--light);
+  }
+  .img-placeholder .ph-label {
+    font-size: 9px; letter-spacing: 0.2em; text-transform: uppercase;
+    color: var(--light); font-family: var(--sans);
+  }
+
+  .card-name {
+    font-family: var(--sans); font-size: 10px; font-weight: 600;
+    letter-spacing: 0.18em; text-transform: uppercase; margin-bottom: 6px;
+  }
+  .card-price {
+    font-family: var(--serif); font-style: italic; font-size: 14px;
+    color: var(--mid);
+  }
+
+  /* ══════════════════════════════
+     PRODUCT PAGE
+  ══════════════════════════════ */
+  #product { padding-top: 90px; }
+
+  .product-layout {
+    display: grid; grid-template-columns: 1fr 420px 1fr;
+    min-height: calc(100vh - 90px);
+    max-width: 1300px; margin: 0 auto;
+    padding: 60px 40px 80px;
+    gap: 60px;
+    align-items: start;
+  }
+
+  .product-info { padding-top: 20px; }
+
+  .product-title {
+    font-family: var(--sans); font-size: 13px; font-weight: 600;
+    letter-spacing: 0.2em; text-transform: uppercase;
+    margin-bottom: 24px; line-height: 1.6;
+  }
+
+  .product-desc {
+    font-family: var(--serif); font-style: italic;
+    font-size: 15px; font-weight: 300;
+    color: var(--mid); margin-bottom: 16px; line-height: 1.7;
+  }
+
+  .product-bullets {
+    list-style: disc; padding-left: 18px;
+    font-family: var(--serif); font-size: 14px;
+    font-weight: 300; color: var(--mid);
+    line-height: 2; margin-bottom: 0;
+  }
+
+  .product-main-img {
+    background: var(--off-white);
+    aspect-ratio: 3/4;
+    display: flex; align-items: center; justify-content: center;
+  }
+
+  .product-actions { padding-top: 20px; }
+
+  .size-label {
+    font-family: var(--sans); font-size: 9px; font-weight: 600;
+    letter-spacing: 0.2em; text-transform: uppercase;
+    color: var(--mid); margin-bottom: 12px;
+  }
+
+  .size-grid {
+    display: flex; gap: 8px; margin-bottom: 32px; flex-wrap: wrap;
+  }
+
+  .size-btn {
+    width: 46px; height: 46px; border: 1px solid var(--black);
+    background: none; cursor: pointer;
+    font-family: var(--sans); font-size: 10px; font-weight: 500;
+    letter-spacing: 0.1em;
+    transition: all .15s;
+  }
+  .size-btn:hover, .size-btn.active {
+    background: var(--black); color: var(--white);
+  }
+
+  .color-label {
+    font-family: var(--sans); font-size: 9px; font-weight: 600;
+    letter-spacing: 0.2em; text-transform: uppercase;
+    color: var(--mid); margin-bottom: 12px;
+  }
+
+  .color-grid { display: flex; gap: 10px; margin-bottom: 40px; }
+
+  .color-btn {
+    width: 28px; height: 28px; border-radius: 50%;
+    border: 1px solid transparent; cursor: pointer; transition: all .15s;
+    position: relative;
+  }
+  .color-btn.white-btn { background: #fff; border-color: #ccc; }
+  .color-btn.black-btn { background: #0a0a0a; }
+  .color-btn.active::after {
+    content: ''; position: absolute; inset: -4px;
+    border-radius: 50%; border: 1.5px solid var(--black);
+  }
+  .color-btn.white-btn.active::after { border-color: #aaa; }
+
+  .price-row {
+    display: flex; align-items: baseline; gap: 10px;
+    margin-bottom: 28px;
+  }
+  .price-amount {
+    font-family: var(--serif); font-size: 22px; font-weight: 300;
+  }
+
+  .atc-btn {
+    width: 100%; padding: 16px;
+    background: var(--black); color: var(--white); border: none;
+    font-family: var(--sans); font-size: 10px; font-weight: 600;
+    letter-spacing: 0.25em; text-transform: uppercase;
+    cursor: pointer; transition: opacity .2s;
+  }
+  .atc-btn:hover { opacity: .8; }
+
+  /* ── BREADCRUMB ── */
+  .breadcrumb {
+    font-family: var(--sans); font-size: 9px; letter-spacing: 0.18em;
+    text-transform: uppercase; color: var(--light); margin-bottom: 48px;
+    cursor: pointer;
+  }
+  .breadcrumb span:hover { color: var(--black); }
+
+  /* ── BANNER ── */
+  .mockup-banner {
+    position: fixed; bottom: 0; left: 0; width: 100%;
+    background: #0a0a0a; color: #fff;
+    font-family: var(--sans); font-size: 9px; letter-spacing: 0.2em;
+    text-transform: uppercase; text-align: center;
+    padding: 10px; z-index: 999; pointer-events: none;
+  }
+
+  /* ── CONTACT ── */
+  #contact { padding-top: 90px; min-height: 100vh; background: var(--white); }
+  .contact-inner {
+    max-width: 520px; margin: 0 auto;
+    padding: 80px 40px;
+  }
+  .contact-inner h2 {
+    font-family: var(--serif); font-size: 36px; font-weight: 300;
+    letter-spacing: 0.04em; margin-bottom: 12px;
+  }
+  .contact-inner p {
+    font-family: var(--serif); font-style: italic;
+    color: var(--mid); font-size: 15px; margin-bottom: 48px;
+    line-height: 1.7;
+  }
+  .contact-field {
+    width: 100%; border: none; border-bottom: 1px solid var(--light);
+    padding: 14px 0; margin-bottom: 28px;
+    font-family: var(--serif); font-size: 15px;
+    outline: none; background: transparent;
+    transition: border-color .2s;
+  }
+  .contact-field:focus { border-bottom-color: var(--black); }
+  .contact-field::placeholder { color: var(--light); }
+  .contact-submit {
+    width: 100%; padding: 15px;
+    background: var(--black); color: var(--white); border: none;
+    font-family: var(--sans); font-size: 10px; font-weight: 600;
+    letter-spacing: 0.25em; text-transform: uppercase;
+    cursor: pointer;
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav id="main-nav" class="light">
+  <div class="nav-links">
+    <a onclick="goto('home')">Home</a>
+    <a onclick="goto('shop')">Shop</a>
+    <a onclick="goto('contact')">Contact</a>
+  </div>
+  <div class="nav-logo" onclick="goto('home')">LOVEROF</div>
+  <div class="nav-cart">Cart (0)</div>
+</nav>
+
+<!-- ══ HOME ══ -->
+<div id="home" class="page active">
+  <div class="home-bg"></div>
+
+  <!-- Animated SVG figure -->
+  <div class="figure-wrap">
+    <svg class="figure-svg" viewBox="0 0 340 520" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <!-- Flowing abstract figure suggestion — arms raised, fabric billowing -->
+      <!-- Body -->
+      <ellipse cx="170" cy="200" rx="28" ry="44" fill="rgba(255,255,255,0.55)"/>
+      <!-- Head -->
+      <circle cx="170" cy="138" r="22" fill="rgba(255,255,255,0.6)"/>
+      <!-- Left arm raised -->
+      <path d="M145 185 Q110 140 88 100" stroke="rgba(255,255,255,0.5)" stroke-width="14" stroke-linecap="round"/>
+      <!-- Right arm raised -->
+      <path d="M195 185 Q232 140 258 105" stroke="rgba(255,255,255,0.5)" stroke-width="14" stroke-linecap="round"/>
+      <!-- Skirt / fabric — wide flare -->
+      <path d="M142 238 Q90 300 60 400 Q90 420 170 430 Q250 420 280 400 Q248 300 198 238 Z"
+            fill="rgba(255,255,255,0.4)"/>
+      <!-- Skirt layer 2 -->
+      <path d="M148 250 Q100 330 80 420 Q120 440 170 445 Q220 440 260 420 Q240 330 192 250 Z"
+            fill="rgba(255,255,255,0.2)"/>
+      <!-- Left leg -->
+      <path d="M148 430 Q138 470 130 510" stroke="rgba(255,255,255,0.45)" stroke-width="10" stroke-linecap="round"/>
+      <!-- Right leg — pointed, extended -->
+      <path d="M192 430 Q210 475 228 505" stroke="rgba(255,255,255,0.45)" stroke-width="10" stroke-linecap="round"/>
+      <!-- Hair -->
+      <ellipse cx="170" cy="128" rx="18" ry="10" fill="rgba(120,100,90,0.35)"/>
+
+      <!-- Floating fabric trails -->
+      <path d="M88 100 Q60 80 40 55 Q70 65 88 100" fill="rgba(255,255,255,0.25)"/>
+      <path d="M258 105 Q285 80 308 60 Q278 72 258 105" fill="rgba(255,255,255,0.25)"/>
+
+      <!-- Shimmer dots -->
+      <circle cx="110" cy="320" r="3" fill="rgba(255,255,255,0.4)"/>
+      <circle cx="230" cy="290" r="2.5" fill="rgba(255,255,255,0.35)"/>
+      <circle cx="165" cy="460" r="2" fill="rgba(255,255,255,0.3)"/>
+    </svg>
+  </div>
+
+  <!-- Side nav -->
+  <div class="home-nav-left">
+    <a onclick="goto('home')">Home</a>
+    <a onclick="goto('shop')">Shop</a>
+    <a onclick="goto('contact')">Contact</a>
+  </div>
+
+  <div class="home-wordmark">LOVEROF — SS26</div>
+</div>
+
+<!-- ══ SHOP ══ -->
+<div id="shop" class="page">
+  <div class="shop-header">
+    <h1>All Products</h1>
+  </div>
+  <div class="product-grid">
+
+    <div class="product-card" onclick="openProduct('Lover of Comic Tee','50.00','Oversized boxy tee in heavyweight cotton jersey.',['Graphic printed on front','Boxy oversized fit','Regular length','Crew neck','6.5 oz 100% cotton'])">
+      <div class="card-img-wrap">
+        <div class="img-placeholder">
+          <div class="ph-icon">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
+          </div>
+          <span class="ph-label">Product Photo</span>
+        </div>
+      </div>
+      <div class="card-name">Lover of Comic Tee</div>
+      <div class="card-price">$50.00 USD</div>
+    </div>
+
+    <div class="product-card" onclick="openProduct('Money, H*es and Clothes Tee','50.00','Oversized boxy tee in heavyweight cotton jersey.',['Graphic printed on front','Boxy oversized fit','Regular length','Crew neck','6.5 oz 100% cotton'])">
+      <div class="card-img-wrap">
+        <div class="img-placeholder">
+          <div class="ph-icon">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
+          </div>
+          <span class="ph-label">Product Photo</span>
+        </div>
+      </div>
+      <div class="card-name">Money, H*es and Clothes Tee</div>
+      <div class="card-price">$50.00 USD</div>
+    </div>
+
+    <div class="product-card" onclick="openProduct('Rich Dolla\'s Tee','45.00','Classic cut tee in 100% cotton jersey.',['Graphic printed on front','Standard fit','True to size','Crew neck','100% cotton'])">
+      <div class="card-img-wrap">
+        <div class="img-placeholder">
+          <div class="ph-icon">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
+          </div>
+          <span class="ph-label">Product Photo</span>
+        </div>
+      </div>
+      <div class="card-name">Rich Dolla's Tee</div>
+      <div class="card-price">$45.00 USD</div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ══ PRODUCT ══ -->
+<div id="product" class="page">
+  <div class="product-layout">
+    <!-- Info left -->
+    <div class="product-info">
+      <div class="breadcrumb" onclick="goto('shop')"><span>← Back to Shop</span></div>
+      <div class="product-title" id="p-title">Lover of Comic Tee</div>
+      <p class="product-desc" id="p-desc">Oversized boxy tee in heavyweight cotton jersey.</p>
+      <ul class="product-bullets" id="p-bullets">
+        <li>Graphic printed on front</li>
+        <li>Boxy oversized fit</li>
+        <li>Regular length</li>
+        <li>Crew neck</li>
+        <li>6.5 oz 100% cotton</li>
+      </ul>
+    </div>
+
+    <!-- Main image center -->
+    <div class="product-main-img">
+      <div class="img-placeholder">
+        <div class="ph-icon" style="width:64px;height:64px;">
+          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
+        </div>
+        <span class="ph-label">Product Photo</span>
+      </div>
+    </div>
+
+    <!-- Actions right -->
+    <div class="product-actions">
+      <div class="price-row">
+        <div class="price-amount" id="p-price">$50.00</div>
+        <div style="font-size:10px;letter-spacing:.1em;color:var(--mid);font-family:var(--sans);">USD</div>
+      </div>
+
+      <div class="size-label">Size</div>
+      <div class="size-grid">
+        <button class="size-btn active" onclick="selectSize(this)">S</button>
+        <button class="size-btn" onclick="selectSize(this)">M</button>
+        <button class="size-btn" onclick="selectSize(this)">L</button>
+        <button class="size-btn" onclick="selectSize(this)">XL</button>
+        <button class="size-btn" onclick="selectSize(this)">2XL</button>
+      </div>
+
+      <div class="color-label">Color</div>
+      <div class="color-grid">
+        <button class="color-btn white-btn active" onclick="selectColor(this)" title="White"></button>
+        <button class="color-btn black-btn" onclick="selectColor(this)" title="Black"></button>
+      </div>
+
+      <button class="atc-btn" id="atc-btn">Add to Cart — $50.00</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══ CONTACT ══ -->
+<div id="contact" class="page">
+  <div class="contact-inner">
+    <h2>Get in Touch</h2>
+    <p>Questions about sizing, orders, or anything else — we're here.</p>
+    <input class="contact-field" type="text" placeholder="Your name" />
+    <input class="contact-field" type="email" placeholder="Email address" />
+    <textarea class="contact-field" rows="4" placeholder="Your message" style="resize:none;"></textarea>
+    <button class="contact-submit">Send Message</button>
+  </div>
+</div>
+
+<!-- Mockup label -->
+<div class="mockup-banner">Mockup — LOVEROF · Built by ALFAYOMEGA</div>
+
+<script>
+  const pages = ['home','shop','product','contact'];
+
+  function goto(id) {
+    pages.forEach(p => {
+      document.getElementById(p).classList.remove('active');
+    });
+    document.getElementById(id).classList.add('active');
+
+    const nav = document.getElementById('main-nav');
+    if (id === 'home') {
+      nav.className = 'light';
+    } else {
+      nav.className = 'dark';
+    }
+    window.scrollTo(0,0);
+  }
+
+  function openProduct(name, price, desc, bullets) {
+    document.getElementById('p-title').textContent = name.toUpperCase();
+    document.getElementById('p-desc').textContent = desc;
+    document.getElementById('p-price').textContent = '$' + price;
+    document.getElementById('atc-btn').textContent = 'Add to Cart — $' + price;
+
+    const ul = document.getElementById('p-bullets');
+    ul.innerHTML = '';
+    bullets.forEach(b => {
+      const li = document.createElement('li');
+      li.textContent = b;
+      ul.appendChild(li);
+    });
+
+    // Reset selectors
+    document.querySelectorAll('.size-btn').forEach((b,i) => {
+      b.classList.toggle('active', i === 0);
+    });
+    document.querySelectorAll('.color-btn').forEach((b,i) => {
+      b.classList.toggle('active', i === 0);
+    });
+
+    goto('product');
+  }
+
+  function selectSize(el) {
+    document.querySelectorAll('.size-btn').forEach(b => b.classList.remove('active'));
+    el.classList.add('active');
+  }
+
+  function selectColor(el) {
+    document.querySelectorAll('.color-btn').forEach(b => b.classList.remove('active'));
+    el.classList.add('active');
+  }
+</script>
+</body>
+</html>
